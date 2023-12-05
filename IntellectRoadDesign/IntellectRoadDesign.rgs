@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'IntellectRoadDesign'
+		'NBIMIntellectRoadDesign.arx'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}
