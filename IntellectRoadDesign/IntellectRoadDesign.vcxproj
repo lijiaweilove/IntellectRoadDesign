@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{E7F4125F-06B7-48B7-9676-E447E36197DC}</ProjectGuid>
+    <RootNamespace>IntellectRoadDesign</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v90</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.34202.158</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <GenerateTypeLibrary>true</GenerateTypeLibrary>
+      <TypeLibraryName>$(IntDir)NBIMIntellectRoadDesign.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <DllDataFileName />
+      <InterfaceIdentifierFileName>IntellectRoadDesign_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>IntellectRoadDesign_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalUsingDirectories>c:\Program Files\AutoCAD 2011\;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;INTELLECTROADDESIGN_MODULE;_AFXEXT;_ACRXAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>$(OutDir)NBIMIntellectRoadDesign.arx</OutputFile>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)IntellectRoadDesign.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)IntellectRoadDesign.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>NotSet</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <GenerateTypeLibrary>true</GenerateTypeLibrary>
+      <TypeLibraryName>$(IntDir)NBIMIntellectRoadDesign.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <DllDataFileName />
+      <InterfaceIdentifierFileName>IntellectRoadDesign_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>IntellectRoadDesign_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>D:\study-2\ObjectARX 2012\inc;D:\study-2\ObjectARX 2012\inc-x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>c:\Program Files\AutoCAD 2011\;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_WIN64;_WINDOWS;INTELLECTROADDESIGN_MODULE;_AFXEXT;_ACRXAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <OutputFile>$(OutDir)NBIMIntellectRoadDesign.arx</OutputFile>
+      <AdditionalLibraryDirectories>D:\study-2\ObjectARX 2012\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)IntellectRoadDesign.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)IntellectRoadDesign.lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <GenerateTypeLibrary>true</GenerateTypeLibrary>
+      <TypeLibraryName>$(IntDir)NBIMIntellectRoadDesign.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <DllDataFileName />
+      <InterfaceIdentifierFileName>IntellectRoadDesign_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>IntellectRoadDesign_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalUsingDirectories>c:\Program Files\AutoCAD 2011\;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;INTELLECTROADDESIGN_MODULE;NDEBUG;_AFXEXT;_ACRXAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>$(OutDir)NBIMIntellectRoadDesign.arx</OutputFile>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile />
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(OutDir)IntellectRoadDesign.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>NotSet</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <GenerateTypeLibrary>true</GenerateTypeLibrary>
+      <TypeLibraryName>$(IntDir)NBIMIntellectRoadDesign.tlb</TypeLibraryName>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <DllDataFileName />
+      <InterfaceIdentifierFileName>IntellectRoadDesign_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>IntellectRoadDesign_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalUsingDirectories>c:\Program Files\AutoCAD 2011\;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_WIN64;_WINDOWS;INTELLECTROADDESIGN_MODULE;NDEBUG;_AFXEXT;_ACRXAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>$(OutDir)NBIMIntellectRoadDesign.arx</OutputFile>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile />
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)IntellectRoadDesign.lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="acrxEntryPoint.cpp" />
+    <ClCompile Include="BaseData.cpp" />
+    <ClCompile Include="CAPoint.cpp" />
+    <ClCompile Include="CAstar.cpp" />
+    <ClCompile Include="Common\ArxGeoMathHelper.cpp" />
+    <ClCompile Include="Common\ArxGetSelectPoint.cpp" />
+    <ClCompile Include="Common\ArxHatchHelper.cpp" />
+    <ClCompile Include="Common\ArxHelper.cpp" />
+    <ClCompile Include="Common\ArxLayerHelper.cpp" />
+    <ClCompile Include="Common\ArxMathHelper.cpp" />
+    <ClCompile Include="Common\ArxTextStyleHelper.cpp" />
+    <ClCompile Include="Common\ExcelHelper.cpp" />
+    <ClCompile Include="Common\HighlightManager.cpp" />
+    <ClCompile Include="Common\Tools.cpp" />
+    <ClCompile Include="Common\XDataHelper.cpp" />
+    <ClCompile Include="ContourModel.cpp" />
+    <ClCompile Include="control\NumberEdit.cpp" />
+    <ClCompile Include="control\TipsListCtrl.cpp" />
+    <ClCompile Include="DocData.cpp" />
+    <ClCompile Include="IntellectRoadDesign.cpp" />
+    <ClCompile Include="IntellectRoadDesignCmd.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="OldRoad.cpp" />
+    <ClCompile Include="Point3D.cpp" />
+    <ClCompile Include="ResultUI.cpp" />
+    <ClCompile Include="RoadCal.cpp" />
+    <ClCompile Include="RoadNet.cpp" />
+    <ClCompile Include="RoadUI.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Target.cpp" />
+    <ClCompile Include="Utils\Utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="IntellectRoadDesign.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseData.h" />
+    <ClInclude Include="CAPoint.h" />
+    <ClInclude Include="CAstar.h" />
+    <ClInclude Include="Common\ArxGeoMathHelper.h" />
+    <ClInclude Include="Common\ArxGetSelectPoint.h" />
+    <ClInclude Include="Common\ArxHatchHelper.h" />
+    <ClInclude Include="Common\ArxHelper.h" />
+    <ClInclude Include="Common\ArxLayerHelper.h" />
+    <ClInclude Include="Common\ArxMathHelper.h" />
+    <ClInclude Include="Common\ArxTextStyleHelper.h" />
+    <ClInclude Include="Common\Cable_Point.h" />
+    <ClInclude Include="Common\EleData.h" />
+    <ClInclude Include="Common\ExcelHelper.h" />
+    <ClInclude Include="Common\HighlightManager.h" />
+    <ClInclude Include="Common\Tools.h" />
+    <ClInclude Include="Common\XDataHelper.h" />
+    <ClInclude Include="ContourModel.h" />
+    <ClInclude Include="control\NumberEdit.h" />
+    <ClInclude Include="control\TipsListCtrl.h" />
+    <ClInclude Include="DocData.h" />
+    <ClInclude Include="IntellectRoadDesignCmd.h" />
+    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="OldRoad.h" />
+    <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResultUI.h" />
+    <ClInclude Include="RoadCal.h" />
+    <ClInclude Include="RoadNet.h" />
+    <ClInclude Include="RoadUI.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Struct.h" />
+    <ClInclude Include="Target.h" />
+    <ClInclude Include="Utils\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IntellectRoadDesign.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IntellectRoadDesign.rgs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
