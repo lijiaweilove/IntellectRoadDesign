@@ -227,7 +227,7 @@ DWORD WINAPI ThreadFunction(LPVOID param)
 
 
 Result IntellectRoadDesignCmd::GetRoadData(int departLength, double maxSlope){
-	acutPrintf(_T("\n测试开始"));
+	acutPrintf(_T("\n开始执行"));
     RoadCal* road = new RoadCal();
     road->departLength = departLength;
     // 获取风机平台点坐标
@@ -288,7 +288,7 @@ Result IntellectRoadDesignCmd::GetRoadData(int departLength, double maxSlope){
 	}
     RoadCal::edge.clear();
   
-    acutPrintf(_T("\n 测试完成"));
+    acutPrintf(_T("\n 执行结束"));
     delete road;
     return res;
 }
