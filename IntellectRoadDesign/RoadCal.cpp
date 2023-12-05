@@ -305,7 +305,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 		
 		// 存在两条以上的线
 		if (count >= 2) {  
-			double tempDis = 0., /*minDis = DBL_MAX*/ minDis = 0.;
+			double tempDis = 0., minDis = DBL_MAX /*minDis = 0.*/;
 			int index = -1;
 			// 找出最小的dis对应的result
 			for (int m = 0; m < temp.size(); m++) {
@@ -313,7 +313,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 					tempDis = result[temp[m].first].startDis;
 				else 
 					tempDis = result[temp[m].first].endDis;
-				if (tempDis > minDis) {   // *********这里调节大小 
+				if (tempDis < minDis) {   // *********这里调节大小 
 					minDis = tempDis;
 					index = m;
 				}
