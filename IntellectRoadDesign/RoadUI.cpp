@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "resource.h"
 #include "RoadUI.h"
+#include "DataManager.h"
 
 //-----------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC(RoadUI, CAcUiDialog)
@@ -76,6 +77,8 @@ void RoadUI::OnBnClickedOk()
     if (nValue1 != 0) {
         departLength = nValue1;
         maxSlope = nValue2;
+        DataManager::Instanse()->SetDepartLength(departLength);
+        DataManager::Instanse()->SetMaxSlope(maxSlope);
         CAcUiDialog::OnOK();
     }
     else {
