@@ -279,7 +279,8 @@ void RoadCal::doRoadNetPlan(Result& res)
 	roadnet.kruskal(targetNum, RoadCal::edge, result);
 	//std::sort(result.begin(), result.end(), compareWeight);
 	double roadDis = 0., mountainDis = 0.;
-	for (int i = 0; i < result.size(); i++) {
+	size_t i = 0;
+	for (i = 0; i < result.size(); i++) {
 		roadDis += result[i].roadDis;
 		mountainDis += result[i].mountainDis;
 	}
@@ -289,10 +290,10 @@ void RoadCal::doRoadNetPlan(Result& res)
 	//	result.pop_back();
 	// 查找重复点对应的线，result.result对应的是v(end)->u(start)的点列
 	
-	for (int i = 0; i < points.size(); i++) {
+	for (i = 0; i < points.size(); i++) {
 		int count = 0;
 		vector<std::pair<int, bool>> temp;
-		for (int j = 0; j < result.size(); j++) {
+		for (size_t j = 0; j < result.size(); j++) {
 			if (result[j].u == i) {
 				temp.push_back(std::make_pair(j, true));  // u=true=start
 				count++;
@@ -306,9 +307,10 @@ void RoadCal::doRoadNetPlan(Result& res)
 		// 存在两条以上的线
 		if (count >= 2) {  
 			double tempDis = 0., minDis = DBL_MAX /*minDis = 0.*/;
+			size_t m = 0;
 			int index = -1;
 			// 找出最小的dis对应的result
-			for (int m = 0; m < temp.size(); m++) {
+			for (m = 0; m < temp.size(); m++) {
 				if (temp[m].second == true) 
 					tempDis = result[temp[m].first].startDis;
 				else 
@@ -319,21 +321,45 @@ void RoadCal::doRoadNetPlan(Result& res)
 				}
 			}
 
-			// 删除其他的
-			for (int m = 0; m < temp.size(); m++) {
+			//  删除首尾重复点
+			for (m = 0; m < temp.size(); m++) {
 				if (m == index)
 					continue;
-				if (temp[m].second == true) {
-					result[temp[m].first].result->erase(result[temp[m].first].result->end() - result[temp[m].first].startPointNum, 
-						result[temp[m].first].result->end());
+				vector<AcGePoint2d>* prepareDelRes = result[temp[m].first].result;
+				if (temp[m].second) {
+					prepareDelRes->erase(prepareDelRes->end() - result[temp[m].first].startPointNum,
+						prepareDelRes->end());
 					mountainDis -= result[temp[m].first].startDis;
 				}
 				else {
-					result[temp[m].first].result->erase(result[temp[m].first].result->begin(), 
-						result[temp[m].first].result->begin() + result[temp[m].first].endPointNum);
+					result[temp[m].first].result->erase(prepareDelRes->begin(),
+						prepareDelRes->begin() + result[temp[m].first].endPointNum);
 					mountainDis -= result[temp[m].first].endDis;
 				}
 			}
+
+			//  删除中间重复点
+			for (m = 0; m < temp.size(); m++) {
+				if (m == index)
+					continue;
+				vector<AcGePoint2d>* notDelRes = result[temp[index].first].result;
+				vector<AcGePoint2d>* prepareDelRes = result[temp[m].first].result;
+				vector<AcGePoint2d> tempDelRes;
+				size_t k = 0, l = 0;
+				for (k = 0; k < prepareDelRes->size(); ++k) {
+					for (l = 0; l < notDelRes->size(); ++l) {
+						if ((*prepareDelRes)[k].distanceTo((*notDelRes)[l]) < 9.0) {
+							tempDelRes.push_back((*prepareDelRes)[k]);
+							prepareDelRes->erase(prepareDelRes->begin() + k);
+							--k;
+							break;
+						}
+					}
+				}
+				for (k = 0; k + 1 < tempDelRes.size(); k +=2)
+					roadDis -= tempDelRes[k].distanceTo(tempDelRes[k + 1]);
+			}
+
 		}
 	}
 
