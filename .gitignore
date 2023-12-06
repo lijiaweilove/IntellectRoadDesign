@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/IntellectRoadDesign/IntellectRoadDesign.vcxproj
+/IntellectRoadDesign/IntellectRoadDesign.vcxproj.filters
