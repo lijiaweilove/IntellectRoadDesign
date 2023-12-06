@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include "TerCurDrawing.h"
 CRITICAL_SECTION RoadCal::csLock;
 vector<Edge*> RoadCal::edge;
 
@@ -340,8 +341,21 @@ void RoadCal::doRoadNetPlan(Result& res)
 	// 进行多线段绘制
 	const int fitInterval = 30; // 间隔点数
 	for (size_t i = 0; i < result.size(); i++) {
+		TerCurDrawing* drawing = new TerCurDrawing(result[i]);
+		drawing->readDGX();
 		AcDbPolyline* pPolyline = new AcDbPolyline();
 		std::vector<AcGePoint2d>& polyPoints = *result[i].result;
+
+		AcGePoint3dArray startPoints;
+		for (int j = polyPoints.size() - 1; j < result[i].endPointNum; j--) {
+			startPoints.append(AcGePoint3d(polyPoints[j].x, polyPoints[j].y, 0.0));
+		}
+		drawing->CalcAllIntersectPoint(startPoints);
+
+		AcGePoint3dArray endPoints;
+		for (int j = 0; j < result[i].startDis; j++) {
+			endPoints.append(AcGePoint3d(polyPoints[j].x, polyPoints[j].y, 0.0));
+		}
 
 		AcGePoint3dArray fitPoints;
 		for (int j = 0; j < polyPoints.size(); j++) {
