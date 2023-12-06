@@ -311,7 +311,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 			int index = -1;
 			// 找出最小的dis对应的result
 			for (m = 0; m < temp.size(); m++) {
-				if (temp[m].second == true) 
+				if (temp[m].second) 
 					tempDis = result[temp[m].first].startDis;
 				else 
 					tempDis = result[temp[m].first].endDis;
@@ -339,6 +339,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 			}
 
 			//  删除中间重复点
+			const double extand = 9.0;  // 查找范围
 			for (m = 0; m < temp.size(); m++) {
 				if (m == index)
 					continue;
@@ -348,7 +349,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 				size_t k = 0, l = 0;
 				for (k = 0; k < prepareDelRes->size(); ++k) {
 					for (l = 0; l < notDelRes->size(); ++l) {
-						if ((*prepareDelRes)[k].distanceTo((*notDelRes)[l]) < 9.0) {
+						if ((*prepareDelRes)[k].distanceTo((*notDelRes)[l]) < extand) {
 							tempDelRes.push_back((*prepareDelRes)[k]);
 							prepareDelRes->erase(prepareDelRes->begin() + k);
 							--k;
@@ -358,8 +359,22 @@ void RoadCal::doRoadNetPlan(Result& res)
 				}
 				for (k = 0; k + 1 < tempDelRes.size(); k +=2)
 					roadDis -= tempDelRes[k].distanceTo(tempDelRes[k + 1]);
+				if (temp[m].second) {
+					for (k = 0; k < notDelRes->size(); ++k) {
+						if ((*notDelRes)[k].distanceTo(prepareDelRes->back()) < extand + 5.0) {
+							 prepareDelRes->push_back((*notDelRes)[k]);
+							 break;
+						}
+					}
+				}
+				else
+					for (k = 0; k < notDelRes->size(); ++k) {
+						if ((*notDelRes)[k].distanceTo(prepareDelRes->front()) < extand + 5.0){
+							prepareDelRes->insert(prepareDelRes->begin(), (*notDelRes)[k]);
+							break;
+						}
+					}
 			}
-
 		}
 	}
 
