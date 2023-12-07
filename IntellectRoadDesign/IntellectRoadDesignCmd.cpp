@@ -7,6 +7,8 @@
 #include <map>
 #include <windows.h>
 #include <set>
+#include "Common/ArxGetSelectPoint.h"
+#include "DataManager.h"
 
 
 // 对所选区域上色
@@ -227,6 +229,15 @@ DWORD WINAPI ThreadFunction(LPVOID param)
 
 
 Result IntellectRoadDesignCmd::GetRoadData(int departLength, double maxSlope){
+    CString sInfo = _T("\n请选择剖面图放置点 ");
+    AcGePoint3d ptSelect;
+    if (RTNORM != CadCommon::ArxGetSelectPoint::GetSelectPointReturnCode(sInfo, ptSelect))
+    {
+        return;
+    }
+    DataManager::Instanse()->SetSelectPoint(ptSelect);
+
+
 	acutPrintf(_T("\n开始执行"));
     RoadCal* road = new RoadCal();
     road->departLength = departLength;

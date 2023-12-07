@@ -44,3 +44,13 @@ double DataManager::GetMaxSlope()
 {
 	return maxSlope;
 }
+
+void DataManager::SetSelectPoint(AcGePoint3d value)
+{
+	ptSelect = value;
+}
+
+AcGePoint3d DataManager::GetSelectPoint()
+{
+	return ptSelect;
+}

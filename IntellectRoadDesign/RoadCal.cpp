@@ -381,8 +381,10 @@ void RoadCal::doRoadNetPlan(Result& res)
 
 	// 进行多线段绘制
 	const int fitInterval = 30; // 间隔点数
+	TerCurDrawing* drawing = TerCurDrawing::Instanse();
 	for (size_t i = 0; i < result.size(); i++) {
-		TerCurDrawing* drawing = new TerCurDrawing(result[i]);
+		
+		drawing->SetStageValue(result[i]);
 		drawing->readDGX();
 		AcDbPolyline* pPolyline = new AcDbPolyline();
 		std::vector<AcGePoint2d>& polyPoints = *result[i].result;
@@ -417,6 +419,11 @@ void RoadCal::doRoadNetPlan(Result& res)
 		//roadnet.createPolyLine(pPolyline);
 		//pPolyline->close();
 	}
+
+	drawing->DrawingSectionalView();
+
+	delete drawing;
+
 	res.mountainDis = mountainDis;
 	res.roadDis = roadDis;
 }

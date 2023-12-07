@@ -11,6 +11,7 @@ public:
 	double GetLineLength();	
 public:
 	std::vector<CPoint3D*> linePoint;
+	AcDbPolyline* pline;
 public:
 	double lineLength;
 	double altitude;

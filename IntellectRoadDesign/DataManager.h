@@ -16,8 +16,12 @@ public:
 	void SetMaxSlope(double value);
 	double GetMaxSlope();
 
+	void SetSelectPoint(AcGePoint3d value);
+	AcGePoint3d GetSelectPoint();
+
 private:
 	int departLength;
 	double maxSlope;
+	AcGePoint3d ptSelect;
 };
 

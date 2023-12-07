@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ContourModel.h"
+#include "Common/EleData.h"
 
 CContourModel::CContourModel(void)
 {
@@ -14,7 +15,7 @@ CContourModel::CContourModel(AcDbEntity* pEnt)
 	linePoint.resize(0);
 	lineLength=0;
 	altitude=0;
-	AcDbPolyline* pline=AcDbPolyline::cast(pEnt);  // 将实体转换为多线段类型
+	pline=AcDbPolyline::cast(pEnt);  // 将实体转换为多线段类型
 	unsigned int ptNum = pline->numVerts();  // 多段线中的顶点数
 	altitude = pline->elevation();  // 获取多段线的高程信息
 	AcGePoint3d point1;
@@ -35,6 +36,7 @@ CContourModel::CContourModel(AcDbEntity* pEnt)
 
 CContourModel::~CContourModel(void)
 {
+	SAFE_DELETE(pline);
 	//for (int i = 0; i < linePoint.size(); i++) {
 	//	delete linePoint[i];
 	//	linePoint[i] = NULL;
