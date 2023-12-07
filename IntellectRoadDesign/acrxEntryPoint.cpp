@@ -231,7 +231,8 @@ public:
 		CAcModuleResourceOverride myResources;
 		RoadUI dlg;
 		dlg.DoModal();
-		result = IntellectRoadDesignCmd::getInstace()->GetRoadData(dlg.departLength, dlg.maxSlope);
+		if(dlg.isOK)
+			result = IntellectRoadDesignCmd::getInstace()->GetRoadData(dlg.departLength, dlg.maxSlope);
 	}
 
 	static void NBIMRCResultData(){
