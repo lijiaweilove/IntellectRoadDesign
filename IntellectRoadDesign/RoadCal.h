@@ -22,6 +22,7 @@ public:
 	void SeparateData();
 	void DomainSerach(const AcGePoint3d* point1, const AcGePoint3d* point2);
 	void doRoadNetPlan(Result& res);
+	void addMLeader(AcDbDatabase* pDb, AcDbObjectId layerId, AcGePoint3d point);
 public:
 	const TCHAR* layerName;
 	vector<AcGePoint3d*> points;
