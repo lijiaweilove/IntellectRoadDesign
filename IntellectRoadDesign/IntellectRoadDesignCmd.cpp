@@ -138,7 +138,7 @@ void getEdgeWeight(RoadCal* road, int start, int end, double maxSlope) {
     
     //EnterCriticalSection(&RoadCal::csLock);
     RoadCal::edge.push_back(new Edge(start, end));  // start =u, end =v
-    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint2d(nowPoint->m_x, nowPoint->m_y));
+    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint3d(nowPoint->m_x, nowPoint->m_y, nowPoint->m_elevation));
     while (!(*prePoint == *(star->_startPoint))){  // ´Óv(end)->u(start)ÕÒ
         tmpDis = sqrt(pow(nowPoint->m_x - prePoint->m_x, 2.) + pow(nowPoint->m_y - prePoint->m_y, 2.));
         if (!prePoint->isRoad) {
@@ -164,15 +164,15 @@ void getEdgeWeight(RoadCal* road, int start, int end, double maxSlope) {
                 tempStartPointNum = 0;
             }
         }
-        AcGePoint2d startPoint(nowPoint->m_x, nowPoint->m_y);
-        AcGePoint2d endPoint(prePoint->m_x, prePoint->m_y);
+        AcGePoint3d startPoint(nowPoint->m_x, nowPoint->m_y, nowPoint->m_elevation);
+        AcGePoint3d endPoint(prePoint->m_x, prePoint->m_y, prePoint->m_elevation);
         RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(endPoint);
         nowPoint = prePoint;
         prePoint = prePoint->m_parent;
     }
     RoadCal::edge[RoadCal::edge.size() - 1]->roadDis += rodDis;
     RoadCal::edge[RoadCal::edge.size() - 1]->mountainDis += mouDis;
-    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint2d(prePoint->m_x, prePoint->m_y));
+    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint3d(prePoint->m_x, prePoint->m_y, prePoint->m_elevation));
     RoadCal::edge[RoadCal::edge.size() - 1]->weight = mouDis + rodDis;
     RoadCal::edge[RoadCal::edge.size() - 1]->midWeight = middleDis;
     RoadCal::edge[RoadCal::edge.size() - 1]->endDis = endDis;

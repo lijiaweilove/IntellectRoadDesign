@@ -339,7 +339,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 			for (m = 0; m < temp.size(); m++) {
 				if (m == index)
 					continue;
-				vector<AcGePoint2d>* prepareDelRes = result[temp[m].first].result;
+				vector<AcGePoint3d>* prepareDelRes = result[temp[m].first].result;
 				if (temp[m].second) {
 					prepareDelRes->erase(prepareDelRes->end() - result[temp[m].first].startPointNum,
 						prepareDelRes->end());
@@ -357,9 +357,9 @@ void RoadCal::doRoadNetPlan(Result& res)
 			for (m = 0; m < temp.size(); m++) {
 				if (m == index)
 					continue;
-				vector<AcGePoint2d>* notDelRes = result[temp[index].first].result;
-				vector<AcGePoint2d>* prepareDelRes = result[temp[m].first].result;
-				vector<AcGePoint2d> tempDelRes;
+				vector<AcGePoint3d>* notDelRes = result[temp[index].first].result;
+				vector<AcGePoint3d>* prepareDelRes = result[temp[m].first].result;
+				vector<AcGePoint3d> tempDelRes;
 				size_t k = 0, l = 0;
 				for (k = 0; k < prepareDelRes->size(); ++k) {
 					for (l = 0; l < notDelRes->size(); ++l) {
@@ -396,11 +396,10 @@ void RoadCal::doRoadNetPlan(Result& res)
 	const int fitInterval = 30; // ¼ä¸ôµãÊý
 	for (size_t i = 0; i < result.size(); i++) {
 		AcDbPolyline* pPolyline = new AcDbPolyline();
-		std::vector<AcGePoint2d>& polyPoints = *result[i].result;
+		std::vector<AcGePoint3d>& polyPoints = *result[i].result;
 
 		AcGePoint3dArray fitPoints;
 		for (int j = 0; j < polyPoints.size(); j++) {
-			AcGePoint2d vertex;
 			fitPoints.append(AcGePoint3d(polyPoints[j].x, polyPoints[j].y, 0.0));
 		}
 		AcDbSpline* pSpline = new AcDbSpline(fitPoints);

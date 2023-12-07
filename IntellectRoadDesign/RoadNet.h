@@ -12,10 +12,10 @@ struct Edge
 	double endDis, startDis;
 	int endPointNum, startPointNum;
 	double roadDis, mountainDis;
-	vector<AcGePoint2d>* result;
+	vector<AcGePoint3d>* result;
 	Edge(int u, int v) : u(u), v(v), weight(0.), midWeight(0.), endDis(0.), startDis(0.), endPointNum(0),
 		startPointNum(0), roadDis(0.), mountainDis(0.){
-		result = new vector<AcGePoint2d>;
+		result = new vector<AcGePoint3d>;
 	};
 	Edge(const Edge& edge) : u(edge.u), v(edge.v), weight(edge.weight), midWeight(edge.midWeight), 
 		endDis(edge.endDis), startDis(edge.startDis), endPointNum(edge.endPointNum), 
