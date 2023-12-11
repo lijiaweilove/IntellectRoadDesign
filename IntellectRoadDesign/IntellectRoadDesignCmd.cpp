@@ -10,7 +10,6 @@
 #include "Common/ArxGetSelectPoint.h"
 #include "DataManager.h"
 
-
 // 对所选区域上色
 void ColorContourPoints(std::vector<std::vector<std::vector<CPoint3D*>>>& contourPoints) {
     AcDbDatabase* pDatabase = acdbHostApplicationServices()->workingDatabase();
@@ -99,22 +98,34 @@ void getEdgeWeight(RoadCal* road, int start, int end, double maxSlope) {
     double startElevation = road->points[start]->z;
     double endElevation = road->points[end]->z;
     
-    star->_startPoint = (*pointMap)[abs(road->downLeftPoint.Y - startPointY) / road->departLength]
-		[abs(road->downLeftPoint.X - startPointX) / road->departLength];
-    star->_endPoint = (*pointMap)[abs(road->downLeftPoint.Y - endPointY) / road->departLength]
-        [abs(road->downLeftPoint.X - endPointX) / road->departLength];
+  //  star->_startPoint = (*pointMap)[abs(road->downLeftPoint.Y - startPointY) / road->departLength]
+		//[abs(road->downLeftPoint.X - startPointX) / road->departLength];
+  //  star->_endPoint = (*pointMap)[abs(road->downLeftPoint.Y - endPointY) / road->departLength]
+  //      [abs(road->downLeftPoint.X - endPointX) / road->departLength];
 
-    /*star->_startPoint = new CAPoint(startPointX, startPointY, abs(road->downLeftPoint.Y - startPointY) / road->departLength
-        , abs(road->downLeftPoint.X - startPointX) / road->departLength);
-    star->_endPoint = new CAPoint(endPointX, endPointY, abs(road->downLeftPoint.Y - endPointY) / road->departLength
-        , abs(road->downLeftPoint.X - endPointX) / road->departLength);*/
+    int startYIndex = abs(road->downLeftPoint.Y - startPointY) / road->departLength;
+    int startXIndex = abs(road->downLeftPoint.X - startPointX) / road->departLength;
+    int endYIndex = abs(road->downLeftPoint.Y - endPointY) / road->departLength;
+    int endXIndex = abs(road->downLeftPoint.X - endPointX) / road->departLength;
+    // 检查起点的数组下标是否越界
+    if (startYIndex >= pointMap->size() || startXIndex >= (*pointMap)[startYIndex].size()) {
+        delete pointMap;
+        return;
+    }
+    // 检查终点的数组下标是否越界
+    if (endYIndex >= pointMap->size() || endXIndex >= (*pointMap)[endYIndex].size()) {
+        delete pointMap;
+        return;
+    }
+    star->_startPoint = (*pointMap)[startYIndex][startXIndex];
+    star->_endPoint = (*pointMap)[endYIndex][endXIndex];
     star->_startPoint->m_elevation = startElevation;
     star->_endPoint->m_elevation = endElevation;
     CAPoint* point = star->findWay(pointMap);
     if (point == NULL) {
         delete star;
         delete pointMap;
-        return;
+        return ;
     }
 
     //打印路线
@@ -129,7 +140,7 @@ void getEdgeWeight(RoadCal* road, int start, int end, double maxSlope) {
     
     //EnterCriticalSection(&RoadCal::csLock);
     RoadCal::edge.push_back(new Edge(start, end));  // start =u, end =v
-    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint2d(nowPoint->m_x, nowPoint->m_y));
+    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint3d(nowPoint->m_x, nowPoint->m_y, nowPoint->m_elevation));
     while (!(*prePoint == *(star->_startPoint))){  // 从v(end)->u(start)找
         tmpDis = sqrt(pow(nowPoint->m_x - prePoint->m_x, 2.) + pow(nowPoint->m_y - prePoint->m_y, 2.));
         if (!prePoint->isRoad) {
@@ -155,15 +166,15 @@ void getEdgeWeight(RoadCal* road, int start, int end, double maxSlope) {
                 tempStartPointNum = 0;
             }
         }
-        AcGePoint2d startPoint(nowPoint->m_x, nowPoint->m_y);
-        AcGePoint2d endPoint(prePoint->m_x, prePoint->m_y);
+        AcGePoint3d startPoint(nowPoint->m_x, nowPoint->m_y, nowPoint->m_elevation);
+        AcGePoint3d endPoint(prePoint->m_x, prePoint->m_y, prePoint->m_elevation);
         RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(endPoint);
         nowPoint = prePoint;
         prePoint = prePoint->m_parent;
     }
     RoadCal::edge[RoadCal::edge.size() - 1]->roadDis += rodDis;
     RoadCal::edge[RoadCal::edge.size() - 1]->mountainDis += mouDis;
-    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint2d(prePoint->m_x, prePoint->m_y));
+    RoadCal::edge[RoadCal::edge.size() - 1]->result->push_back(AcGePoint3d(prePoint->m_x, prePoint->m_y, prePoint->m_elevation));
     RoadCal::edge[RoadCal::edge.size() - 1]->weight = mouDis + rodDis;
     RoadCal::edge[RoadCal::edge.size() - 1]->midWeight = middleDis;
     RoadCal::edge[RoadCal::edge.size() - 1]->endDis = endDis;
@@ -173,6 +184,7 @@ void getEdgeWeight(RoadCal* road, int start, int end, double maxSlope) {
     //LeaveCriticalSection(&RoadCal::csLock);
     delete star;
     delete pointMap;
+    return ;
 }
 
 
@@ -221,7 +233,7 @@ DWORD WINAPI ThreadFunction(LPVOID param)
     double maxSlope = params->maxSlope;
     roadCopy->SeparateData();
     getEdgeWeight(roadCopy, i, j, maxSlope);  // 执行A*算法
-
+    
     delete roadCopy;
     delete params;
     return 0;
@@ -233,7 +245,8 @@ Result IntellectRoadDesignCmd::GetRoadData(int departLength, double maxSlope){
     AcGePoint3d ptSelect;
     if (RTNORM != CadCommon::ArxGetSelectPoint::GetSelectPointReturnCode(sInfo, ptSelect))
     {
-        return;
+        Result res;
+        return res;
     }
     DataManager::Instanse()->SetSelectPoint(ptSelect);
 
@@ -293,12 +306,12 @@ Result IntellectRoadDesignCmd::GetRoadData(int departLength, double maxSlope){
     RemoveDuplicateEdges();
     Result res;
     road->doRoadNetPlan(res);
+
     // 释放静态资源
     for (int i = 0; i < RoadCal::edge.size(); i++) {
 		delete RoadCal::edge[i];
 	}
     RoadCal::edge.clear();
-  
     acutPrintf(_T("\n 执行结束"));
     delete road;
     return res;

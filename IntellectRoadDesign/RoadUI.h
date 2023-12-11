@@ -13,6 +13,7 @@ public:
 
 	int departLength;
 	double maxSlope;
+	bool isOK;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);

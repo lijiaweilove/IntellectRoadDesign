@@ -54,5 +54,7 @@ namespace CadCommon
 
 		static double AngleVectorYaxis(AcGePoint3d vector);
 
+		//根据x求多段线上点
+		static AcGePoint3d GetMultiPolyLineByX(AcGePoint3dArray ptArr, double pointX);
 	};
 }

@@ -1,12 +1,15 @@
 #include "StdAfx.h"
 #include "RoadCal.h"
 #include "Struct.h"
+#include <dbmleader.h>
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <string>
 #include "TerCurDrawing.h"
 CRITICAL_SECTION RoadCal::csLock;
 vector<Edge*> RoadCal::edge;
+
 
 
 RoadCal::RoadCal(void) : targetNum(-1), row(0), line(0), departLength(-1), layerName(_T("新建路"))
@@ -156,6 +159,15 @@ double getTargetElevation(AcDbPolyline* pPolyline)
 void RoadCal::readDwg()
 {
 	AcDbObjectIdArray objIds = RoadNet::GetAllEntIds(layerName);
+	AcDbObjectId layerId = AcDbObjectId::kNull;
+	AcDbDatabase* pDb = acdbHostApplicationServices()->workingDatabase();
+	AcDbLayerTable* pLayerTable;
+	if (pDb->getLayerTable(pLayerTable, AcDb::kForRead) == Acad::eOk) {
+		AcDbObjectId layerTableRecordId;
+		if (pLayerTable->getAt(layerName, layerTableRecordId) == Acad::eOk) 
+			layerId = layerTableRecordId;
+		pLayerTable->close();
+	}
 	for (int i = 0; i < objIds.length(); i++)
 	{
 		AcDbEntity* pEnt = NULL;
@@ -165,6 +177,8 @@ void RoadCal::readDwg()
 			{
 				AcDbPolyline* pPolyline = AcDbPolyline::cast(pEnt);
 				unsigned int num = pPolyline->numVerts();
+				AcGePoint3d tempPoint;
+				pPolyline->getPointAt(3, tempPoint);
 				AcGePoint3d centerPoint(0.0, 0.0, 0.0);
 				for (unsigned int j = 0; j < num; j++){
 					AcGePoint3d vertex;
@@ -173,9 +187,9 @@ void RoadCal::readDwg()
 				}
 				centerPoint = centerPoint / num;
 				centerPoint.z = getTargetElevation(pPolyline);
-				//acutPrintf(_T("\n%f,%f"), centerPoint.x, centerPoint.y);
-				points.push_back(new AcGePoint3d(centerPoint));
 				pPolyline->close();
+				points.push_back(new AcGePoint3d(centerPoint));
+				addMLeader(pDb, layerId, tempPoint);
 			}
 			pEnt->close();
 		}
@@ -249,8 +263,8 @@ void RoadCal::DomainSerach(const AcGePoint3d* point1, const AcGePoint3d* point2)
 								baseData->contours.push_back(tempContour);  // 一次只插入一条多线段
 							}
 						}
-						else if ((lNameStr.find(L"宗教文物") != std::wstring::npos) || 
-							(lNameStr.find(L"垣栅") != std::wstring::npos) || 
+						else if ((lNameStr.find(L"宗教文物") != std::wstring::npos) ||
+							(lNameStr.find(L"垣栅") != std::wstring::npos) ||
 							(lNameStr.find(L"普通房屋") != std::wstring::npos)) {
 							CObstacle* tempObstacle = new CObstacle(pEnt);
 							baseData->obstacles.push_back(tempObstacle);
@@ -326,7 +340,7 @@ void RoadCal::doRoadNetPlan(Result& res)
 			for (m = 0; m < temp.size(); m++) {
 				if (m == index)
 					continue;
-				vector<AcGePoint2d>* prepareDelRes = result[temp[m].first].result;
+				vector<AcGePoint3d>* prepareDelRes = result[temp[m].first].result;
 				if (temp[m].second) {
 					prepareDelRes->erase(prepareDelRes->end() - result[temp[m].first].startPointNum,
 						prepareDelRes->end());
@@ -344,9 +358,9 @@ void RoadCal::doRoadNetPlan(Result& res)
 			for (m = 0; m < temp.size(); m++) {
 				if (m == index)
 					continue;
-				vector<AcGePoint2d>* notDelRes = result[temp[index].first].result;
-				vector<AcGePoint2d>* prepareDelRes = result[temp[m].first].result;
-				vector<AcGePoint2d> tempDelRes;
+				vector<AcGePoint3d>* notDelRes = result[temp[index].first].result;
+				vector<AcGePoint3d>* prepareDelRes = result[temp[m].first].result;
+				vector<AcGePoint3d> tempDelRes;
 				size_t k = 0, l = 0;
 				for (k = 0; k < prepareDelRes->size(); ++k) {
 					for (l = 0; l < notDelRes->size(); ++l) {
@@ -362,47 +376,49 @@ void RoadCal::doRoadNetPlan(Result& res)
 					roadDis -= tempDelRes[k].distanceTo(tempDelRes[k + 1]);
 				if (temp[m].second) {
 					for (k = 0; k < notDelRes->size(); ++k) {
-						if ((*notDelRes)[k].distanceTo(prepareDelRes->back()) < extand + 5.0) {
+						if ((*notDelRes)[k].distanceTo(prepareDelRes->back()) < extand + 10.0) {
 							 prepareDelRes->push_back((*notDelRes)[k]);
 							 break;
 						}
 					}
 				}
-				else
+				else{
 					for (k = 0; k < notDelRes->size(); ++k) {
-						if ((*notDelRes)[k].distanceTo(prepareDelRes->front()) < extand + 5.0){
+						if ((*notDelRes)[k].distanceTo(prepareDelRes->front()) < extand + 10.0){
 							prepareDelRes->insert(prepareDelRes->begin(), (*notDelRes)[k]);
 							break;
 						}
 					}
+				}
 			}
 		}
 	}
 
 	// 进行多线段绘制
 	const int fitInterval = 30; // 间隔点数
-	TerCurDrawing* drawing = TerCurDrawing::Instanse();
+	//TerCurDrawing* drawing = TerCurDrawing::Instanse();
+	//BeginEdit();
 	for (size_t i = 0; i < result.size(); i++) {
-		
+		/*drawing->ClearDGX();
 		drawing->SetStageValue(result[i]);
-		drawing->readDGX();
+		drawing->readDGX();*/
 		AcDbPolyline* pPolyline = new AcDbPolyline();
-		std::vector<AcGePoint2d>& polyPoints = *result[i].result;
+		std::vector<AcGePoint3d>& polyPoints = *result[i].result;
 
-		AcGePoint3dArray startPoints;
-		for (int j = polyPoints.size() - 1; j < result[i].endPointNum; j--) {
+		/*AcGePoint3dArray startPoints;
+		for (int j = polyPoints.size() - 1; j >= result[i].endPointNum; j--) {
 			startPoints.append(AcGePoint3d(polyPoints[j].x, polyPoints[j].y, 0.0));
 		}
-		drawing->CalcAllIntersectPoint(startPoints);
+		drawing->CalcAllIntersectPoint(startPoints, L"起点");
 
 		AcGePoint3dArray endPoints;
-		for (int j = 0; j < result[i].startDis; j++) {
+		for (int j = 0; j < result[i].startPointNum; j++) {
 			endPoints.append(AcGePoint3d(polyPoints[j].x, polyPoints[j].y, 0.0));
 		}
+		drawing->CalcAllIntersectPoint(endPoints, L"终点");*/
 
 		AcGePoint3dArray fitPoints;
 		for (int j = 0; j < polyPoints.size(); j++) {
-			AcGePoint2d vertex;
 			fitPoints.append(AcGePoint3d(polyPoints[j].x, polyPoints[j].y, 0.0));
 		}
 		AcDbSpline* pSpline = new AcDbSpline(fitPoints);
@@ -419,10 +435,10 @@ void RoadCal::doRoadNetPlan(Result& res)
 		//roadnet.createPolyLine(pPolyline);
 		//pPolyline->close();
 	}
+	//EndEdit();
+	//drawing->DrawingSectionalView();
 
-	drawing->DrawingSectionalView();
-
-	delete drawing;
+	//delete drawing;
 
 	res.mountainDis = mountainDis;
 	res.roadDis = roadDis;
@@ -573,4 +589,36 @@ void RoadCal::SeparateData(){
 			(*obstaclePoints)[rowIndex][lineIndex].push_back(point);
 		}
 	}
+}
+
+//  设置风机场地号(设置坐标，字体大小及位置)
+void RoadCal::addMLeader(AcDbDatabase* pDb, AcDbObjectId layerId, AcGePoint3d point) {
+	int textSize = 8;
+	AcDbBlockTable* pBlkTbl = NULL;
+	acDocManager->lockDocument(acDocManager->curDocument());
+	if (pDb->getBlockTable(pBlkTbl, AcDb::kForRead) == Acad::eOk){
+		AcDbBlockTableRecord* pBlkTblRcd = NULL;
+		if (pBlkTbl->getAt(ACDB_MODEL_SPACE, pBlkTblRcd, AcDb::kForWrite) == Acad::eOk){
+			AcGePoint3d lastPoint(point.x + 40.0, point.y, 0);
+			AcDbLine* pLine = new AcDbLine(point, lastPoint);
+			pLine->setLayer(layerId);
+			pBlkTblRcd->appendAcDbEntity(pLine);
+
+			AcString result;
+			result.format(_T("%d"), points.size() - 1);
+			const ACHAR* charValue = result.kACharPtr();
+			AcDbMText* pMText = new AcDbMText();
+			pMText->setTextHeight(textSize);
+			pMText->setContents(charValue);
+			pMText->setLayer(layerId);
+			AcGePoint3d mTextPoint(lastPoint.x, lastPoint.y + textSize + 1, 0);
+			pMText->setLocation(mTextPoint);
+			pBlkTblRcd->appendAcDbEntity(pMText);
+			pLine->close();
+			pMText->close();
+			pBlkTblRcd->close();
+		}
+		pBlkTbl->close();
+	}
+	acDocManager->unlockDocument(acDocManager->curDocument());
 }

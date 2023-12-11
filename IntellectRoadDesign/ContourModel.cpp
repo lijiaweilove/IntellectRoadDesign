@@ -15,7 +15,7 @@ CContourModel::CContourModel(AcDbEntity* pEnt)
 	linePoint.resize(0);
 	lineLength=0;
 	altitude=0;
-	pline=AcDbPolyline::cast(pEnt);  // 将实体转换为多线段类型
+	pline = AcDbPolyline::cast(pEnt);  // 将实体转换为多线段类型
 	unsigned int ptNum = pline->numVerts();  // 多段线中的顶点数
 	altitude = pline->elevation();  // 获取多段线的高程信息
 	AcGePoint3d point1;
@@ -30,17 +30,17 @@ CContourModel::CContourModel(AcDbEntity* pEnt)
 		lineLength+=point1.distanceTo(point2);
 		linePoint.push_back(new CPoint3D(point2.x,point2.y,altitude));
 	}
-
+	
 }
 
 
 CContourModel::~CContourModel(void)
 {
-	SAFE_DELETE(pline);
-	//for (int i = 0; i < linePoint.size(); i++) {
-	//	delete linePoint[i];
-	//	linePoint[i] = NULL;
-	//}
+	for (int i = 0; i < linePoint.size(); i++) {
+		if(linePoint[i]!=NULL){
+			linePoint[i] = NULL;
+		}
+	}
 }
 
 

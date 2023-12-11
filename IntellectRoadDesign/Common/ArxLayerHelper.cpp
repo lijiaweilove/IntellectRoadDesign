@@ -117,8 +117,9 @@ namespace CadCommon
 		cstrlayerName.ReleaseBuffer();
 		//获得当前图形的层表
 		AcDbLayerTable *pLayerTbl;
-		AcDbDatabase* pcCurDB = pdb == NULL ? 		acdbHostApplicationServices()
-			->workingDatabase() : pdb;
+		AcDbDatabase* temp = acdbHostApplicationServices()->workingDatabase();
+		AcDbDatabase* pcCurDB = pdb == NULL ? temp : pdb;
+			
 		pcCurDB->getLayerTable(pLayerTbl, AcDb::kForWrite);
 
 

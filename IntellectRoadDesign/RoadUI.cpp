@@ -34,6 +34,7 @@ BOOL RoadUI::OnInitDialog()
 {
     departLength = -1;
     maxSlope = 0.;
+    isOK = false;
 	CAcUiDialog::OnInitDialog();
     SetDlgItemText(IDC_EDIT1, _T("默认为6"));
     SetDlgItemText(IDC_EDIT2, _T("默认为15"));
@@ -67,6 +68,7 @@ void RoadUI::OnEnSetfocusEdit2()
 
 void RoadUI::OnBnClickedOk()
 {
+    isOK = true;
     CString strValue1, strValue2;
     GetDlgItemText(IDC_EDIT1, strValue1);
     GetDlgItemText(IDC_EDIT2, strValue2);
@@ -86,5 +88,3 @@ void RoadUI::OnBnClickedOk()
         AfxMessageBox(_T("请输入有效的整数。"));
     }
 }
-
-

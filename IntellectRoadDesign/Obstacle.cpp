@@ -47,8 +47,9 @@ CObstacle::~CObstacle(void)
 	if (pEnt){
 		pEnt->close();
 	}
-	/*for (int i = 0; i < pointList.size(); i++) {
-		delete pointList[i];
-	}*/
+	//for (int i = 0; i < pointList.size(); i++) {
+		//delete pointList[i];
+	//	pointList[i] = NULL;
+	//}
 	
 }

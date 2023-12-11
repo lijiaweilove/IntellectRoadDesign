@@ -16,12 +16,21 @@ public:
 	void SetMaxSlope(double value);
 	double GetMaxSlope();
 
+	void SetRoadWidth(double value);
+	double GetRoadWidth();
+
+	void SetRoadAngle(double value);
+	double GetRoadAngle();
+
 	void SetSelectPoint(AcGePoint3d value);
 	AcGePoint3d GetSelectPoint();
 
 private:
 	int departLength;
 	double maxSlope;
+
+	double roadWidth;
+	double roadAngle;
 	AcGePoint3d ptSelect;
 };
 

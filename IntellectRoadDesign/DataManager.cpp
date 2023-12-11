@@ -45,6 +45,26 @@ double DataManager::GetMaxSlope()
 	return maxSlope;
 }
 
+void DataManager::SetRoadWidth(double value)
+{
+	roadWidth = value;
+}
+
+double DataManager::GetRoadWidth()
+{
+	return roadWidth;
+}
+
+void DataManager::SetRoadAngle(double value)
+{
+	roadAngle = value;
+}
+
+double DataManager::GetRoadAngle()
+{
+	return roadAngle;
+}
+
 void DataManager::SetSelectPoint(AcGePoint3d value)
 {
 	ptSelect = value;

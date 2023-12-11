@@ -312,6 +312,42 @@ namespace CadCommon
 		return value;
 	}
 
+	//根据x求多段线上点
+	AcGePoint3d ArxGeoMathHelper::GetMultiPolyLineByX(AcGePoint3dArray ptArr, double pointX)
+	{
+		AcDbLine* pLine;
+		AcGePoint3dArray inSectionPoint;
+		AcGePoint3d tmpPoint1, tmpPoint2;
+
+		try
+		{
+			AcDb2dPolyline* pDistanceLine = new AcDb2dPolyline(AcDb::k2dSimplePoly, ptArr);
+			tmpPoint1.set(pointX, 0.0, 0.0);
+			tmpPoint2.set(pointX, 9999999.0, 0.0);
+			pLine = new AcDbLine(tmpPoint1, tmpPoint2);//垂线
+			inSectionPoint.removeAll();
+			pLine->intersectWith(pDistanceLine, AcDb::kExtendThis, inSectionPoint);//垂线与距地线求交
+			SAFE_DELETE(pLine);
+			if (inSectionPoint.length() > 0)
+			{
+				tmpPoint1 = inSectionPoint.at(0);
+			}
+
+			SAFE_DELETE(pDistanceLine);
+		}
+		catch (CMemoryException* e)
+		{
+
+		}
+		catch (CFileException* e)
+		{
+		}
+		catch (CException* e)
+		{
+		}
+		return tmpPoint1;
+	}
+
 	AcGePoint3d   ArxGeoMathHelper::GetUnitVerticalVector (AcGePoint3d pointO,AcGePoint3d pointA,int type )
 	{
 
